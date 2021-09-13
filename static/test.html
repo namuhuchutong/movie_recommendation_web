@@ -22,8 +22,12 @@
                 alert("fail");
             },
             success : function(data){
-                alert("value : " + data.title) ;
-                $("#dataArea").html(data.title) ;
+                let postURL = 'https://image.tmdb.org/t/p/w500' + data['poster_path'];
+
+
+                output ='<img src=[postURL]>';
+                document.write(output);
+                alert(postURL);
             }
 
         });
