@@ -1,3 +1,3 @@
-# Moive Recommendation API
+# Moive Recommendation Web
 
-Movie Recommendation API using flask.
+Movie Recommendation.
