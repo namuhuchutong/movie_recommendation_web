@@ -19,7 +19,7 @@ function getMovies(searchText){
                         <img src="${movie.Poster}"
                         <h5>${movie.Title}</h5>
                         <br>
-                        <a onclick="movieSelected('${movie.imdbID}')" class="btn btn-primary" href="#">Moive Details</a>
+                        <a onclick="movieSelected('${movie.Title}')" class="btn btn-primary" href="#">Moive Details</a>
                     </div>
                 </div>
                `;
@@ -38,12 +38,12 @@ function movieSelected(id){
 }
 
 function getMovie(){
-    let movieId = sessionStorage.getItem('movieId');
-    axios.get('http://www.omdbapi.com/?apikey=3cb88153&i='+movieId)
+    let movieTitle = sessionStorage.getItem('movieId');
+    axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+movieTitle)
         .then((response) => {
            console.log(response);
            let movie = response.data;
-
+           let movieList = getContentRecommend(movie.Title);
            let output= `
             <div class="row">
           <div class="col-md-4">
@@ -77,4 +77,21 @@ function getMovie(){
         .catch((err) => {
             console.log(err);
         });
+
+}
+
+function getContentRecommend(title) {
+    let movieList;
+    axios.get('http://127.0.0.1:5000/movies/'+title)
+        .then((response) => {
+            console.log(response);
+            let recommendData = response.data;
+            movieList = recommendData.content;
+            console.log(movieList);
+        })
+        .catch((err) => {
+            console.log(err);
+    });
+
+    return movieList;
 }
