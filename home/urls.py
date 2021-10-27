@@ -3,6 +3,8 @@ from . import views
 
 main_patterns = [
     path('', views.main, name="main"),
+    path('movie', views.detail, name="detail"),
+    path('test', views.recommend, name="recommend")
 ]
 
 recommendation_patterns = [
