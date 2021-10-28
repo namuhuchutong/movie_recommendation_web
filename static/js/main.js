@@ -81,46 +81,40 @@ function getMovie(){
 
 }
 
-async function getPoster(title){
-    let poster = '';
-    await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+title)
-        .then((response) => {
-            console.log(response);
-            let movie = response.data;
-            poster = movie.Poster;
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-
-    return poster;
-}
-
-function getContentRecommend(title) {
+async function getContentRecommend(title) {
     let movieList;
-    axios.get('http://127.0.0.1:5000/movies/'+title)
+    await axios.get('http://127.0.0.1:5000/movies/'+title)
         .then((response) => {
             console.log(response);
             let recommendData = response.data;
-            let output = '';
             movieList = recommendData.content;
-            console.log(movieList)
-            $.each(movieList, (index, movie) => {
-                let poster = getPoster(movie);
-                output += `
-                <div class="col-md-3">
-                    <div class="well text-center">
-                        <img src="${poster}" class="thumbnail">
-                        <h5><a onclick="movieSelected('${movie}')">${movie}</a></h5>
-                    </div>
-                </div>
-               `;
-           });
-           $('#recommendations').html(output);
         })
         .catch((err) => {
             console.log(err);
     });
+    let output = '';
+   $.each(movieList, async (index, title) => {
 
-    return false;
+       await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+title)
+           .then((response) => {
+              let movie = response.data;
+              console.log(movie)
+              output += `
+                <div class="col-md-3">
+                    <div class="well text-center">
+                        <img src="${movie.Poster}">
+                        <h5><a onclick="movieSelected('${movie.Title}')">${movie.Title}</a></h5>
+                    </div>
+                </div>
+               `;
+              $('#recommendations').html(output);
+           })
+
+           .catch((err) => {
+               console.log(err);
+           });
+
+   });
+   return false;
+
 }
