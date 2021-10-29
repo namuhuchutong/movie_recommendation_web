@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Recommendation System</title>
-    <link rel="stylesheet" href="https://bootswatch.com/5/cyborg/bootstrap.min.css">
+    <!-- Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=1">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Movie Info</a>
             </div>
+            <div>
+                {% if user.is_authenticated %}
+                    <a> {{ user.username }}</a>
+                    <a href="{% url 'logout' %}">logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Sign In</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
-
-    {% block content %}
-    {% endblock %}
 
     <div class="container">
         <div class="jumbotron">
@@ -28,6 +35,9 @@
             </form>
         </div>
     </div>
+
+    {% block content %}
+    {% endblock %}
 
     <div class="container">
         <div id="movies" class="row"></div>
@@ -39,7 +49,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {% load static %}
-    <script src="{% static 'js/main.js' %}?ver=1"></script>
+    <script src="{% static 'js/main.js' %}?ver=2"></script>
     {% block script %}
     {% endblock %}
 </body>
