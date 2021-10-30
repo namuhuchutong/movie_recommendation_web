@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Recommendation System</title>
-    <!-- Font Awesome Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=2">
 </head>
 
 <body>
@@ -29,7 +28,7 @@
 
     <div class="container">
         <div class="jumbotron">
-            <h3 class="text-center">Movie Recommendation System</h3>
+            <h3 class="text-center">Search your movies</h3>
             <form id="searchForm">
                 <input type="text" class="form-control" id="searchText" placeholder="search title...">
             </form>
@@ -40,8 +39,12 @@
     {% endblock %}
 
     <div class="container">
-        <div id="movies" class="row"></div>
+        <div id="movies" class="row">
+        </div>
     </div>
+
+    {% block rating %}
+    {% endblock %}
 
     {% block recommend %}
     {% endblock %}
@@ -49,7 +52,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {% load static %}
-    <script src="{% static 'js/main.js' %}?ver=2"></script>
+    <script src="{% static 'js/main.js' %}?ver=6"></script>
     {% block script %}
     {% endblock %}
 </body>
