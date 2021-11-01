@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class UserRating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     imdbId = models.CharField(max_length=255, null=True)
+    title = models.CharField(max_length=255, null=True)
     rating = models.IntegerField(default=0,
                                  validators=[
                                      MaxValueValidator(5),

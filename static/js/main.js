@@ -24,7 +24,6 @@ async function getMyLists(){
     console.log(movies);
 
     $.each(movies, async (key, item) => {
-        console.log(movies[1].imdbId);
        await axios.get('http://www.omdbapi.com/?apikey=3cb88153&i='+item.imdbId)
            .then((response) => {
               let movie = response.data;
@@ -45,7 +44,7 @@ async function getMyLists(){
     });
 
     let recommendData;
-    let title = movies[titleNum].imdbId;
+    let title = movies[titleNum].title;
     console.log(title);
     await axios.get('http://127.0.0.1:5000/userId/'+title+"?id=15")
         .then((response) => {

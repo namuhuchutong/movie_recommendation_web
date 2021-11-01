@@ -31,6 +31,7 @@ def rating(request):
 
         obj, created = UserRating.objects.update_or_create(
             user=user,
+            title=title,
             imdbId=imdbId,
             defaults=defaults
         )
@@ -47,6 +48,7 @@ def movieDictionary(username):
         for i, record in enumerate(ratings):
             output[i] = {
                 'imdbId': record.imdbId,
+                'title': record.title,
                 'rating': record.rating
             }
 
