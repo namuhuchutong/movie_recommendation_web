@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block search %}
+    <div class="container">
+        <div class="jumbotron">
+            <h3 class="text-center">Search your movies</h3>
+            <form id="searchForm">
+                <input type="text" class="form-control" id="searchText" placeholder="search title...">
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
 {% block rating %}
     {% if user.is_authenticated %}
         <div class="container text-center">

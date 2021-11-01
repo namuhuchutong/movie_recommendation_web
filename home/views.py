@@ -9,6 +9,9 @@ import json
 def main(request):
     return render(request, 'base.html')
 
+def home(request):
+    return render(request, 'home/home.html')
+
 def detail(request):
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
@@ -17,7 +20,6 @@ def detail(request):
 def rating(request):
     if request.method == 'POST' and request.user.is_authenticated:
         data = json.loads(request.body)
-
         user = request.user
         title = data.get('title', None)
         imdbId = data.get('imdbid', None)
@@ -39,21 +41,38 @@ def rating(request):
 def movieDictionary(username):
     output = {}
     user = get_object_or_404(User, username=username)
-    ratings = UserRating.objects.filter(user=user)
+    try:
+        ratings = UserRating.objects.filter(user=user)
 
-    for i, record in enumerate(ratings):
-        output[i] = {
-            'imdbId': record.imdbId,
-            'rating': record.rating
+        for i, record in enumerate(ratings):
+            output[i] = {
+                'imdbId': record.imdbId,
+                'rating': record.rating
+            }
+
+        return output
+    except UserRating.DoesNotExist:
+        output = {'error':
+            {
+                "code": 403,
+                "message" : "Forbiden",
+            }
         }
-    return output
+        return output
 
 def list(request):
     if request.user.is_authenticated:
         movieDict = movieDictionary(request.user.username)
         return JsonResponse(movieDict)
     else:
-        return JsonResponse({'false': 'no user'})
+        return JsonResponse(
+            {'error':
+                {
+                    "code": 401,
+                    "message": "Login Required"
+                }
+            }
+        )
 
 def movieList(request):
     return render(request, 'home/movie_list.html')

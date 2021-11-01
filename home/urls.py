@@ -8,6 +8,7 @@ main_patterns = [
     path('rating', csrf_exempt(views.rating), name='rating', ),
     path('list', views.list, name='list'),
     path('movieList', views.movieList, name='movieList'),
+    path('home', views.home, name="home"),
 ]
 
 recommendation_patterns = [

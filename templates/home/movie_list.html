@@ -1,12 +1,23 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<div>
-    <div>
-        <div>
-
+    <div class="container">
+        <h3>Your Ratings</h3>
+        <div id="MyList" class="row">
         </div>
     </div>
-</div>
 
+    <div class="container">
+        <h3>Recommend</h3>
+        <div id="MyRecommedation" class="row">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        getMyLists();
+    </script>
 {% endblock %}

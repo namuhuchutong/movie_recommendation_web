@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=2">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?ver=3">
 </head>
 
 <body>
@@ -19,21 +19,17 @@
                 {% if user.is_authenticated %}
                     <a> {{ user.username }}</a>
                     <a href="{% url 'logout' %}">logout</a>
+                    <a href="{% url 'movieList' %}">list</a>
                 {% else %}
                     <a href="{% url 'login' %}">Sign In</a>
                 {% endif %}
+            <a href="{% url 'home' %}">Search</a>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="jumbotron">
-            <h3 class="text-center">Search your movies</h3>
-            <form id="searchForm">
-                <input type="text" class="form-control" id="searchText" placeholder="search title...">
-            </form>
-        </div>
-    </div>
+    {% block search %}
+    {% endblock %}
 
     {% block content %}
     {% endblock %}
@@ -52,7 +48,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {% load static %}
-    <script src="{% static 'js/main.js' %}?ver=6"></script>
+    <script src="{% static 'js/main.js' %}?ver=1123"></script>
     {% block script %}
     {% endblock %}
 </body>
