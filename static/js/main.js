@@ -31,7 +31,7 @@ async function getMyLists(){
               output += `
                 <div class="col-md-3">
                     <div class="well text-center">
-                        <img src="${movie.Poster}">
+                        <img src="${movie.Poster}" onerror="this.src='/media/noimage.png'">
                         <h5><a onclick="movieSelected('${movie.Title}', '${movie.imdbID}')">${movie.Title}</a></h5>
                     </div>
                 </div>
@@ -46,7 +46,7 @@ async function getMyLists(){
     let recommendData;
     let title = movies[titleNum].title;
     console.log(title);
-    await axios.get('http://127.0.0.1:5000/userId/'+title+"?id=15")
+    await axios.get('http://127.0.0.1:5000/userId/'+title+"?id=16")
         .then((response) => {
             console.log(response);
             recommendData = response.data;
@@ -65,7 +65,7 @@ async function getMyLists(){
               output2 += `
                 <div class="col-md-3">
                     <div class="well text-center">
-                        <img src="${movie.Poster}">
+                        <img src="${movie.Poster}" onerror="this.src='/media/noimage.png'">
                         <h5><a onclick="movieSelected('${movie.Title}', '${movie.imdbID}')">${movie.Title}</a></h5>
                     </div>
                 </div>
@@ -92,7 +92,6 @@ function getMovies(searchText){
                     <div class="well text-center">
                         <img src="${movie.Poster}">
                         <h5>${movie.Title}</h5>
-                        <br>
                         <a onclick="movieSelected('${movie.Title}', '${movie.imdbID}')" class="btn btn-primary" href="#">Moive Details</a>
                     </div>
                 </div>
@@ -176,7 +175,7 @@ async function getContentRecommend(title) {
               output += `
                 <div class="col-md-3">
                     <div class="well text-center">
-                        <img src="${movie.Poster}">
+                        <img src="${movie.Poster}" onerror="this.src='/media/noimage.png'"/>
                         <h5><a onclick="movieSelected('${movie.Title}', '${movie.imdbID}')">${movie.Title}</a></h5>
                     </div>
                 </div>
@@ -193,6 +192,31 @@ async function getContentRecommend(title) {
 
 }
 
+function getMyMoives(movies){
+    let output = '';
+    $.each(movies, async (index, movie) => {
+        let title = movie.title;
+        let est = movie.est;
+        await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+title)
+            .then((response) => {
+                let data = response.data;
+                console.log(data);
+                output += `
+                    <div class="col-md-3">
+                        <div class="well text-center">
+                            <img src="${data.Poster}" onerror="this.src='/media/noimage.png'"/>
+                            <h5><a onclick="movieSelected('${data.Title}', '${data.imdbID}')">${data.Title}</a></h5>
+                        </div>
+                    </div>
+                `;
+                $('#UserRecommendation').html(output);
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+    });
+    return false;
+}
 
 $(':radio').change(function() {
     let rating = this.value;

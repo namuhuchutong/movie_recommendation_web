@@ -1,0 +1,24 @@
+{% extends 'home/user_curation_base.html' %}
+
+{% block curations %}
+    <div class="container col-md-auto">
+        <div id="UserRecommendation" class="row row-cols-3">
+        </div>
+    </div>
+{% endblock%}
+
+{% block script %}
+     <script>
+        let movies = [
+            {% for movie in recommend_list %}
+            {
+                title: "{{ movie.title }}",
+                tmdbId: "{{ movie.id }}",
+                est: "{{ movie.est }}"
+            },
+            {% endfor %}
+        ]
+        getMyMoives(movies);
+
+    </script>
+{% endblock %}

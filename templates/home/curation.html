@@ -1,0 +1,32 @@
+{% extends 'home/user_sidebar.html' %}
+
+{% block curations %}
+     <div class="col-lg-4">
+        <div>
+            <h3>Recommendations</h3>
+            {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li>{{movie.id }} -{{ movie.title }} - {{ movie.est }} - {{ movie.genre }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <li>There is no Recommendations</li>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div>
+            <h3>User Ratings</h3>
+            {% if ratings %}
+            <ul>
+                {% for rating in ratings %}
+                    <li>{{ rating.title }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <li>There is no Ratings</li>
+            {% endif %}
+        </div>
+    </divc>
+{% endblock %}

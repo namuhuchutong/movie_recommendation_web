@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <div class="col-4 col-lg-2">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Best Recommendations</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <span class="fs-4">Genres</span>
+                {% if genres_list %}
+                    {% for genre in genres_list %}
+                <li class="nav-item">
+                    <a href="{% url 'userCuration' %}?genre={{ genre.genre }}" class="nav-link" aria-current="page">
+                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                    {{ genre.genre }}
+                    </a>
+                </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary">No Ratings</button>
+                        <button type="button" class="btn btn-danger">No Genres</button>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-auto">
+        {% block curations %}
+        {% endblock %}
+    </div>
+{% endblock %}
