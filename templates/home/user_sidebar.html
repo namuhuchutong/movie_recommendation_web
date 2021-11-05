@@ -9,6 +9,10 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
+         <button class="btn btn-toggle align-items-center rounded" onclick="location.href = '{% url 'userCreateMeta' %}'" aria-expanded="true">
+            Create user meta data
+        </button>
+        <br>
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
             Users
         </button>
@@ -23,6 +27,8 @@
                 <p>There is no User</p>
             </li>
         {% endif %}
+        {% block infomation %}
+        {% endblock %}
             </ul>
         </div>
       </li>

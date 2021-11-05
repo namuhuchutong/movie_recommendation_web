@@ -1,0 +1,17 @@
+{% extends 'home/user_sidebar.html' %}
+
+{% block infomation %}
+    {% if info %}
+        <li>{{ info }}</li>
+    {% endif %}
+{% endblock %}
+
+{% block curations %}
+    <div class="form-group col">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}

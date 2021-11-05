@@ -12,6 +12,7 @@ main_patterns = [
     path('usersPage', views.userSidebar, name="usersPages"),
     path('curation/<str:username>', views.curation, name="curation"),
     path('userCuration', views.userCuration, name='userCuration'),
+    path('userCreateMeta', views.createUserMeta, name='userCreateMeta')
 ]
 
 recommendation_patterns = [

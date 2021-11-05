@@ -24,7 +24,7 @@ async function getMyLists(){
     console.log(movies);
 
     $.each(movies, async (key, item) => {
-       await axios.get('http://www.omdbapi.com/?apikey=3cb88153&i='+item.imdbId)
+       await axios.get('http://www.omdbapi.com/?apikey=d1b58e76&i='+item.imdbId)
            .then((response) => {
               let movie = response.data;
               console.log(movie)
@@ -58,7 +58,7 @@ async function getMyLists(){
 
     let output2 = '';
    $.each(recommendData, async (index, item) => {
-       await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+item.title)
+       await axios.get('http://www.omdbapi.com/?apikey=d1b58e76&t='+item.title)
            .then((response) => {
               let movie = response.data;
               console.log(movie)
@@ -81,7 +81,7 @@ async function getMyLists(){
 }
 
 function getMovies(searchText){
-    axios.get('http://www.omdbapi.com/?apikey=3cb88153&s='+searchText)
+    axios.get('http://www.omdbapi.com/?apikey=d1b58e76&s='+searchText)
         .then((response) => {
            console.log(response);
            let movies = response.data.Search;
@@ -113,7 +113,7 @@ function movieSelected(id, imdbid){
 
 function getMovie(){
     let movieTitle = sessionStorage.getItem('movieId');
-    axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+movieTitle)
+    axios.get('http://www.omdbapi.com/?apikey=d1b58e76&t='+movieTitle)
         .then((response) => {
            console.log(response);
            let movie = response.data;
@@ -141,7 +141,7 @@ function getMovie(){
                         ${movie.Plot}
                         <hr>
                         <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">View IMDB</a>
-                        <a href="/" class="btn btn-default">Go Back To Search</a>
+                        <a href="/home" class="btn btn-default">Go Back To Search</a>
                     </div>
                  </div>
             </div>
@@ -168,7 +168,7 @@ async function getContentRecommend(title) {
     let output = '';
    $.each(movieList, async (index, title) => {
 
-       await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+title)
+       await axios.get('http://www.omdbapi.com/?apikey=d1b58e76&t='+title)
            .then((response) => {
               let movie = response.data;
               console.log(movie)
@@ -197,15 +197,17 @@ function getMyMoives(movies){
     $.each(movies, async (index, movie) => {
         let title = movie.title;
         let est = movie.est;
-        await axios.get('http://www.omdbapi.com/?apikey=3cb88153&t='+title)
+        let percent = parseInt(est/5*100);
+        console.log(percent);
+        await axios.get('http://www.omdbapi.com/?apikey=d1b58e76&t='+title)
             .then((response) => {
                 let data = response.data;
                 console.log(data);
                 output += `
-                    <div class="col-md-3">
+                    <div class="col">
                         <div class="well text-center">
                             <img src="${data.Poster}" onerror="this.src='/media/noimage.png'"/>
-                            <h5><a onclick="movieSelected('${data.Title}', '${data.imdbID}')">${data.Title}</a></h5>
+                            <h5><a onclick="movieSelected('${data.Title}', '${data.imdbID}')">${data.Title} - (${percent}%)</a></h5>
                         </div>
                     </div>
                 `;

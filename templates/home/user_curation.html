@@ -13,7 +13,6 @@
             {% for movie in recommend_list %}
             {
                 title: "{{ movie.title }}",
-                tmdbId: "{{ movie.id }}",
                 est: "{{ movie.est }}"
             },
             {% endfor %}

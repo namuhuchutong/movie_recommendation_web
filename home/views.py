@@ -1,11 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.urls import reverse
+from django.contrib import messages
 
 from .models import UserRating, RecommendMovies, Profile
+from .forms import UserForm
 
 import json
 import random
+import collections
 
 def main(request):
     return render(request, 'home/landing.html')
@@ -80,6 +86,7 @@ def list(request):
 def movieList(request):
     return render(request, 'home/movie_list.html')
 
+@login_required(login_url='/accounts/login')
 def userSidebar(request):
     context = {}
     if request.user.is_authenticated and request.user.is_staff:
@@ -90,6 +97,7 @@ def userSidebar(request):
             context[user.username] = genres
     return render(request, 'home/user_sidebar.html', context=context)
 
+@login_required(login_url='/accounts/login')
 def curation(request, username):
     context = {}
     movies = []
@@ -117,7 +125,7 @@ def curation(request, username):
         pass
     return render(request, 'home/curation.html', context)
 
-
+@login_required(login_url='/accounts/login')
 def userCuration(request):
     context = {}
     if request.user.is_authenticated:
@@ -125,10 +133,10 @@ def userCuration(request):
         genreList = Profile.objects.filter(user=user).values('genre')
         context['genres_list'] = genreList
 
-    if request.GET['genre'] != request.user.username:
+    if request.GET['genre'] != 'Best':
         genre = request.GET['genre']
         movies = []
-        recommendList = RecommendMovies.objects.filter(user=request.user, genre=genre).values('id', 'title', 'est').order_by('-est')[:80]
+        recommendList = RecommendMovies.objects.filter(user=request.user, genre=genre).values('title', 'est').order_by('-est')[:80]
         for res in recommendList:
             movies.append(res)
         random.shuffle(movies)
@@ -137,3 +145,32 @@ def userCuration(request):
         context['None'] = 'There is no Recommendation'
 
     return render(request, 'home/user_curation.html', context)
+
+@login_required(login_url='/accounts/login')
+def createUserMeta(request):
+    context = {}
+    if request.user.is_authenticated and request.user.is_staff:
+        users = User.objects.all()
+        context = {'users': users}
+
+    if request.method == 'POST':
+        userform = UserForm(request.POST)
+
+        if userform.is_valid():
+            user = get_object_or_404(User, username=userform.cleaned_data['username'])
+
+            UserRating.objects.create_obj(username=user.username)
+            RecommendMovies.objects.create_obj(username=user.username)
+
+            context['info'] = 'Data created'
+            return render(request, 'home/user_meta.html', context=context)
+        else:
+            context['info'] = 'User already have tables'
+            return render(request, 'home/user_meta.html', context=context)
+
+    elif request.method == 'GET':
+        userform = UserForm()
+        context['form'] = userform
+    else:
+        return HttpResponseNotFound('<h1>Page Not Found</h1>')
+    return render(request, 'home/user_meta.html', context)
