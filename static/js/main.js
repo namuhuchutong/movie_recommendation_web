@@ -9,7 +9,9 @@ $(document).ready(() => {
 async function getMyLists(){
     let movies;
     let titleNum;
-    await axios.get('http://127.0.0.1:8000/list')
+    let url = document.location.protocol + "//" + document.location.hostname;
+    let api = url + "/list";
+    await axios.get(api)
         .then((response) => {
             console.log(response.data);
             movies = response.data;
@@ -194,7 +196,9 @@ $(':radio').change(function() {
     let payload = { title: title, imdbid: imdbid, rating: rating };
     console.log(payload);
 
-    axios.post('http://127.0.0.1:8000/rating', payload)
+    let url = document.location.protocol + "//" + document.location.hostname;
+    let api = url + "/rating";
+    axios.post(api, payload)
         .then((response) => {
             console.log(response);
         })
