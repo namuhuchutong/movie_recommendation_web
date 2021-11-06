@@ -43,40 +43,6 @@ async function getMyLists(){
            });
     });
 
-    let recommendData;
-    let title = movies[titleNum].title;
-    console.log(title);
-    await axios.get('http://127.0.0.1:5000/api/userId/'+title+"?id=16")
-        .then((response) => {
-            console.log(response);
-            recommendData = response.data;
-            console.log(recommendData)
-        })
-        .catch((err) => {
-            console.log(err);
-    });
-
-    let output2 = '';
-   $.each(recommendData, async (index, item) => {
-       await axios.get('http://www.omdbapi.com/?apikey=d1b58e76&t='+item.title)
-           .then((response) => {
-              let movie = response.data;
-              console.log(movie)
-              output2 += `
-                <div class="col-md-3">
-                    <div class="well text-center">
-                        <img src="${movie.Poster}" onerror="this.src='/media/noimage.png'">
-                        <h5><a onclick="movieSelected('${movie.Title}', '${movie.imdbID}')">${movie.Title}</a></h5>
-                    </div>
-                </div>
-               `;
-              $('#MyRecommedation').html(output2);
-           })
-
-           .catch((err) => {
-               console.log(err);
-           });
-   });
    return false;
 }
 
@@ -228,5 +194,11 @@ $(':radio').change(function() {
     let payload = { title: title, imdbid: imdbid, rating: rating };
     console.log(payload);
 
-    axios.post('http://127.0.0.1:8000/rating', payload);
+    axios.post('http://127.0.0.1:8000/rating', payload)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
