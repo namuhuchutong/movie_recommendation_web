@@ -46,7 +46,7 @@ async function getMyLists(){
     let recommendData;
     let title = movies[titleNum].title;
     console.log(title);
-    await axios.get('http://127.0.0.1:5000/userId/'+title+"?id=16")
+    await axios.get('http://127.0.0.1:5000/api/userId/'+title+"?id=16")
         .then((response) => {
             console.log(response);
             recommendData = response.data;
@@ -156,7 +156,7 @@ function getMovie(){
 
 async function getContentRecommend(title) {
     let movieList;
-    await axios.get('http://127.0.0.1:5000/movies/'+title)
+    await axios.get('http://127.0.0.1:5000/api/movies/'+title)
         .then((response) => {
             console.log(response);
             let recommendData = response.data;

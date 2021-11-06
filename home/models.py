@@ -17,7 +17,7 @@ class UserRatingManager(models.Manager):
 
     def create_obj(self, username):
         user = get_object_or_404(User, username=username)
-        base = 'http://127.0.0.1:5000/userInfo'
+        base = 'http://127.0.0.1:5000/api/userInfo'
         param = '?id=' + username
         path = base + param
 
@@ -59,7 +59,7 @@ class RecommendMoviesManager(models.Manager):
     def create_obj(self, username):
         user = get_object_or_404(User, username=username)
         movies = UserRating.objects.filter(user=user)
-        base = 'http://127.0.0.1:5000/userId'
+        base = 'http://127.0.0.1:5000/api/userId'
         param = '?id=' + username
         genreset = set([])
 
